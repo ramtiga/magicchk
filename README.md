@@ -3,6 +3,11 @@
 * Magic Comment Checker for Ruby
 * If there is no magic comment, insert it.
 
+## Install
+
+    $ git clone git://github.com/ramtiga/magicchk.git
+    $ cd magicchk
+
 ## Usage
 
     $ ./bin/magicchk [filename]
