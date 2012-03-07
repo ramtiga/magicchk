@@ -2,7 +2,7 @@
 require 'fileutils'
 require 'tempfile'
 
-module MagicCheck
+module Magicchk
   extend self
 
   def run(argv)
