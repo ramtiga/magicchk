@@ -19,21 +19,33 @@ module Magicchk
   def chk_magic_comment?(file)
     begin
       File.open(file) do |f|
-        return true if f.readline =~ /^#.*coding.*:.*$/
+        2.times do
+          return true if f.readline =~ /^#.*coding.*:.*$/
+        end
       end
-      false
     rescue 
       "file open error"
     end
+    false
   end
 
   def insert_magic_comment(file)
+      
     temp = Tempfile.new("my-file")
     temp.open
+    
+    ret = chk_shebang?(file)
+    if ret
+      temp.puts ret
+    end
     temp.puts "# coding: utf-8"
     
     File.open(file) do |f|
       f.each do |line|
+        if ret
+          ret = false
+          next
+        end
         temp.puts line    
       end
     end
@@ -41,6 +53,14 @@ module Magicchk
     FileUtils.cp(temp, file)
   ensure
     temp.close
+  end
+  
+  def chk_shebang?(file)
+    File.open(file) do |f|
+      chk = f.readline
+      return chk if chk =~ /^#!/
+    end
+    false
   end
 end
 
